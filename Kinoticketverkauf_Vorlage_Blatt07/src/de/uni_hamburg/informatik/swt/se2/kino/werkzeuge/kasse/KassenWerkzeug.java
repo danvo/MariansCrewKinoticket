@@ -7,6 +7,8 @@ import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Datum;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Kino;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Tagesplan;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Vorstellung;
+import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.ObservableSubWerkzeug;
+import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.SubWerkzeugObserver;
 import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.datumsauswaehler.DatumAuswaehlWerkzeug;
 import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.platzverkauf.PlatzVerkaufsWerkzeug;
 import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.vorstellungsauswaehler.VorstellungsAuswaehlWerkzeug;
@@ -56,13 +58,32 @@ public class KassenWerkzeug
                 _vorstellungAuswaehlWerkzeug.getUIPanel());
 
         registriereUIAktionen();
+        registriereObserver();
         setzeTagesplanFuerAusgewaehltesDatum();
         setzeAusgewaehlteVorstellung();
 
         _ui.zeigeFenster();
     }
 
-    /**
+    private void registriereObserver() {
+    	_vorstellungAuswaehlWerkzeug.registriereBeobachter(new SubWerkzeugObserver() {
+			
+			@Override
+			public void reagiereAufAenderung() {
+		        setzeAusgewaehlteVorstellung();
+			}
+		});
+    	
+    	_datumAuswaehlWerkzeug.registriereBeobachter(new SubWerkzeugObserver() {
+			
+			@Override
+			public void reagiereAufAenderung() {
+				setzeTagesplanFuerAusgewaehltesDatum();
+			}
+		});
+	}
+
+	/**
      * Fügt die Funktionalitat zum Beenden-Button hinzu.
      */
     private void registriereUIAktionen()
