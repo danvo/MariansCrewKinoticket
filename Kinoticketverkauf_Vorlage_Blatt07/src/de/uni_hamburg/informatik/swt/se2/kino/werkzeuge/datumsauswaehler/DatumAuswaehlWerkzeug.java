@@ -2,6 +2,7 @@ package de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.datumsauswaehler;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
 
 import javax.swing.JPanel;
 
@@ -17,9 +18,9 @@ import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.ObservableSubWerkzeug;
  * @author SE2-Team
  * @version SoSe 2015
  */
-public class DatumAuswaehlWerkzeug extends ObservableSubWerkzeug
+public class DatumAuswaehlWerkzeug extends Observable
 {
-    private DatumAuswaehlWerkzeugUI _ui;
+    private DatumAuswaehlWerkzeugUI _ui;	
     private Datum _ausgewaehltesDatum;
 
     /**
@@ -58,7 +59,8 @@ public class DatumAuswaehlWerkzeug extends ObservableSubWerkzeug
     
     private void datumWurdeGeaendert() 
     {
-    	informiereUeberAenderung();
+    	setChanged();
+    	notifyObservers();
     }
 
     /**

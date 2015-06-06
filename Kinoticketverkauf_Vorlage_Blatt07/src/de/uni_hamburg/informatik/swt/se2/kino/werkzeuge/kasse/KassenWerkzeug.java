@@ -2,6 +2,8 @@ package de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.kasse;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Datum;
 import de.uni_hamburg.informatik.swt.se2.kino.materialien.Kino;
@@ -66,19 +68,19 @@ public class KassenWerkzeug
     }
 
     private void registriereObserver() {
-    	_vorstellungAuswaehlWerkzeug.registriereBeobachter(new SubWerkzeugObserver() {
+    	_vorstellungAuswaehlWerkzeug.addObserver(new Observer() {
 			
 			@Override
-			public void reagiereAufAenderung() {
-		        setzeAusgewaehlteVorstellung();
+			public void update(Observable arg0, Object arg1) {
+				setzeAusgewaehlteVorstellung();
 			}
 		});
     	
-    	_datumAuswaehlWerkzeug.registriereBeobachter(new SubWerkzeugObserver() {
+    	_datumAuswaehlWerkzeug.addObserver(new Observer() {
 			
 			@Override
-			public void reagiereAufAenderung() {
-				setzeTagesplanFuerAusgewaehltesDatum();
+			public void update(Observable arg0, Object arg1) {
+		        setzeTagesplanFuerAusgewaehltesDatum();
 			}
 		});
 	}
